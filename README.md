@@ -1,1 +1,175 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Romantik Site</title>
+<style>
+body {
+  margin: 0;
+  padding: 0;
+  background: #000;
+  overflow: hidden;
+  font-family: Arial, sans-serif;
+  color: white;
+}
+
+/* Alt kutu */
+#bottomBox {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 0;
+  background: #444;
+  border-radius: 10px 10px 0 0;
+  overflow: hidden;
+  transition: height 2s;
+}
+#bottomBox.grow { height: 100px; }
+
+/* Oku butonu */
+#okuBtn {
+  position: absolute;
+  left: 10px;
+  bottom: 10px;
+  padding: 5px 10px;
+  cursor: pointer;
+  display: none;
+}
+
+/* Zarf */
+#zarf {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 300px;
+  height: 200px;
+  background: #f5f5dc;
+  border: 3px solid #fff;
+  border-radius: 10px;
+  display: none;
+  padding: 20px;
+  text-align: center;
+  font-weight: bold;
+  color: #333;
+}
+
+/* Çiçek butonu */
+#cicekBtn {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  padding: 10px 20px;
+  cursor: pointer;
+  background: #222;
+  color: #fff;
+  border: 2px solid #fff;
+  border-radius: 5px;
+}
+
+/* Çiçekler */
+.cicek {
+  position: absolute;
+  width: 120px;
+  height: 120px;
+  background-size: cover;
+  animation: appear 1s ease-out forwards;
+  transform: scale(0);
+}
+
+@keyframes appear {
+  0% {opacity: 0; transform: scale(0);}
+  60% {opacity: 1; transform: scale(1.3);}
+  100% {transform: scale(1);}
+}
+
+/* Random mesajlar */
+.message {
+  position: absolute;
+  font-size: 20px;
+  font-weight: bold;
+  animation: floatText 5s infinite;
+  color: #ffccff;
+}
+@keyframes floatText {
+  0% {opacity:0; transform: translateY(20px);}
+  50% {opacity:1; transform: translateY(-20px);}
+  100% {opacity:0; transform: translateY(20px);}
+}
+</style>
+</head>
+<body>
+
+<div id="bottomBox">
+  <button id="okuBtn">Oku</button>
+</div>
+
+<div id="zarf">Bu öküzü affet meleğim sen benim birtanemsin umarım yüzünde bir tebessüm oluşturuyorumdur</div>
+
+<button id="cicekBtn">Çiçek Göster</button>
+
+<script>
+let bottomBox = document.getElementById('bottomBox');
+let okuBtn = document.getElementById('okuBtn');
+let zarf = document.getElementById('zarf');
+let cicekBtn = document.getElementById('cicekBtn');
+let cicekSayac = 0;
+
+// Çiçek resimleri
+let cicekler = [
+  'https://i.postimg.cc/3J7h5x5K/zambak.png',
+  'https://i.postimg.cc/PfS4mXvQ/gul.png'
+];
+
+// Romantik mesajlar
+let messages = ['Seni seviyorum','Balımmm','Beni affet','Bu öküz senin için kurban olmaya hazır'];
+
+// Alt kutu animasyonu
+setTimeout(() => {
+  bottomBox.classList.add('grow');
+  setTimeout(()=>{ okuBtn.style.display='block'; },2000);
+}, 500);
+
+// Oku butonu
+okuBtn.addEventListener('click', ()=>{ zarf.style.display = 'block'; });
+
+// Çiçek butonu
+cicekBtn.addEventListener('click', ()=>{
+  let flower = document.createElement('div');
+  flower.className = 'cicek';
+  flower.style.backgroundImage = `url(${cicekler[cicekSayac % 2]})`;
+  flower.style.left = Math.random() * (window.innerWidth - 120) + 'px';
+  flower.style.top = Math.random() * (window.innerHeight - 120) + 'px';
+  document.body.appendChild(flower);
+  cicekSayac++;
+});
+
+// Açılışta görkemli zambak
+let initialFlower = document.createElement('div');
+initialFlower.className='cicek';
+initialFlower.style.backgroundImage=`url(${cicekler[0]})`;
+initialFlower.style.left='50%';
+initialFlower.style.top='50%';
+initialFlower.style.transform='translate(-50%, -50%) scale(1.5)';
+document.body.appendChild(initialFlower);
+
+// Random mesajlar
+function showMessage(){
+  let msg = document.createElement('div');
+  msg.className='message';
+  msg.textContent = messages[Math.floor(Math.random()*messages.length)];
+  msg.style.left = Math.random()*(window.innerWidth-150)+'px';
+  msg.style.top = Math.random()*(window.innerHeight-50)+'px';
+  document.body.appendChild(msg);
+  setTimeout(()=>{ document.body.removeChild(msg); },5000);
+}
+setInterval(showMessage,1000);
+</script>
+
+</body>
+</html>
+
 # su-okuzunu-affett
